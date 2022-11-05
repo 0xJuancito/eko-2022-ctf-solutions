@@ -43,7 +43,7 @@ function getChainConfig(chain: keyof typeof chainIds): NetworkUserConfig {
       jsonRpcUrl = "https://bsc-dataseed1.binance.org";
       break;
     default:
-      jsonRpcUrl = `https://eth-rinkeby.alchemyapi.io/v2/${alchemyApiKey}`;
+      jsonRpcUrl = `https://eth-goerli.alchemyapi.io/v2/${alchemyApiKey}`;
   }
   return {
     accounts: [privateKey1, privateKey2],
@@ -92,7 +92,7 @@ const config: HardhatUserConfig = {
     tests: "./test",
   },
   solidity: {
-    version: "0.8.15",
+    version: "0.8.17",
     settings: {
       metadata: {
         // Not including the metadata hash
