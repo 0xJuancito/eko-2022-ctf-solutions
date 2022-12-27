@@ -47,3 +47,21 @@ The contracts implement a proxy pattern incorrectly. The `Jackpot` contract is t
 - Obtain the address of the `Jackpot` contract
 - Call initialize to set the attacker as the new "jackpotProxy" to bypass validation
 - Withdraw funds
+
+## The Lost Kitty
+
+### Vulnerability
+
+The contract uses `block.timestamp`, `blockhash`, and `block.number` for randomization.
+
+### POC
+
+The contract uses deterministic variables for randomization and the result can be calculated beforehand.
+
+- [Test](./test/ChallengeHiddenKitty.spec.ts)
+
+### Attack Steps
+
+- Create an attacker contract
+- Precalculate the "random" value
+- Call the target contract with the precalculated slot value
