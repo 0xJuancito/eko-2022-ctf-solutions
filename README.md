@@ -29,3 +29,21 @@ The `CleaningModule` and the `RefuelModule` do not have any access control, so t
 - Everything is set up now to promote to the attacker to a leader. All spaceships have an approve module that returns true. There is one spaceship with a captain that can be promoted to leader
 - Call `mothership.promoteToLeader` with the attacker address
 - Call `mothership.hack`
+
+## Trickster
+
+### Vulnerability
+
+Anyone can withdraw all the funds from the contract.
+
+### POC
+
+The contracts implement a proxy pattern incorrectly. The `Jackpot` contract is the one holding the funds, and can be reinitialized by anyone by calling the `initialize` method again and overwrite the original `proxyJackpot` address used for access control.
+
+- [Test](./test/ChallengeTrickster.spec.ts)
+
+### Attack Steps
+
+- Obtain the address of the `Jackpot` contract
+- Call initialize to set the attacker as the new "jackpotProxy" to bypass validation
+- Withdraw funds
