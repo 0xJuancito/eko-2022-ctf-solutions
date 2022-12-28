@@ -137,3 +137,15 @@ There is a miscalculation regarding remainders when the amount is lower than the
 - Sell all TSLA stonks
 - Buy TSLA stonks with an GME amount lower than the oracle price, for 0 TSLA
 - Repeat until the TSLA balance is 0
+
+## Gas Valve
+
+### POC
+
+The goal is to make the `useNozzle` fail. In order to do that `nozzle.insert` has to consume all the remaining gas for the function.
+
+- [Test](./test/ChallengeValve.spec.ts)
+
+### Attack Steps
+
+- Make a call to the contract limiting the gas or create a `nozzle.insert` function that consumes almost all gas to make the `useNozzle` fail
