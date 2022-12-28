@@ -119,3 +119,21 @@ Anyone can get tickets without waiting any time.
 - Join the waitlist
 - Call the `updateWaitTime` method with a value that makes it overflow
 - Call `joinRaffle` with the precalculated "random" value
+
+## Stonks
+
+### Vulnerability
+
+The contract can lose all funds due to error with remainder.
+
+### POC
+
+There is a miscalculation regarding remainders when the amount is lower than the oracle price in `require(amountGMEin / ORACLE_TSLA_GME == amountTSLAout, "Invalid price");`. Leading to cases like `49 / 50 == 0` being a valid case. This can be used to exploit prices.
+
+- [Test](./test/ChallengeStonks.spec.ts)
+
+### Attack Steps
+
+- Sell all TSLA stonks
+- Buy TSLA stonks with an GME amount lower than the oracle price, for 0 TSLA
+- Repeat until the TSLA balance is 0
