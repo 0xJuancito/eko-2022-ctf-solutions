@@ -65,3 +65,20 @@ The contract uses deterministic variables for randomization and the result can b
 - Create an attacker contract
 - Precalculate the "random" value
 - Call the target contract with the precalculated slot value
+
+## Root me
+
+### Vulnerability
+
+Anyone can get root access by registering a new identifier.
+
+### POC
+
+The security of the identifiers relies on `keccak256(abi.encodePacked(user, salt))`, but it doesn't consider that the `encodePacked` method will return the same results for multiple strings concatenated, like `("ROOT", "ROOT")` and `("ROO","TROOT")`.
+
+- [Test](./test/ChallengeRootMe.spec.ts)
+
+### Attack Steps
+
+- Register an identifier with `("ROO","TROOT")` or any other equivalent pair that wasn't used
+- Call the `write` method to override the `victory` variable
