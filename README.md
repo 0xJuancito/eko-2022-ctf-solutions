@@ -100,3 +100,22 @@ The security of the identifiers relies on `keccak256(abi.encodePacked(user, salt
 - Calculate the `magic` by calculating the reverse function of `kedavra = abi.encodePacked(bytes4(bytes32(uint256(spellInBytes) - magic)))`
 - Call the `destroyIt` method
 - It will call the `kill` method internally
+
+## Root me
+
+### Vulnerability
+
+Anyone can get tickets without waiting any time.
+
+### POC
+
+- The `updateWaitTime` method is vulnerable to an overflow on `waitlist[msg.sender] += uint40(_time);`
+- The `joinRaffle` method uses deterministic "randomness" on `uint256 randomNumber = uint256(keccak256(abi.encodePacked(blockhash(block.number - 1), block.timestamp)));`
+
+- [Test](./test/ChallengeGoldenTicket.spec.ts)
+
+### Attack Steps
+
+- Join the waitlist
+- Call the `updateWaitTime` method with a value that makes it overflow
+- Call `joinRaffle` with the precalculated "random" value
