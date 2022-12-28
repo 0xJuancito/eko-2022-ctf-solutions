@@ -82,3 +82,21 @@ The security of the identifiers relies on `keccak256(abi.encodePacked(user, salt
 
 - Register an identifier with `("ROO","TROOT")` or any other equivalent pair that wasn't used
 - Call the `write` method to override the `victory` variable
+
+## Smart Horrocrux
+
+### POC
+
+- First step is to make the contract not `invincible`. To do so, we need the contract balance to be 1 wei. This can be achieved by emptying the contract balance, and then sending it exactly one wei.
+- Then calculate the `spell` and `magic` to be able to call the `kill` method internally via `destroyIt`
+
+- [Test](./test/ChallengeSmartHorrocrux.spec.ts)
+
+### Attack Steps
+
+- Empty the contract balance by calling any function not implemented, which will get to the `fallback` function
+- Send 1 wei to the contract (by selfdestructing another contract for example)
+- Convert the `spell` from `bytes32` to `string`
+- Calculate the `magic` by calculating the reverse function of `kedavra = abi.encodePacked(bytes4(bytes32(uint256(spellInBytes) - magic)))`
+- Call the `destroyIt` method
+- It will call the `kill` method internally
