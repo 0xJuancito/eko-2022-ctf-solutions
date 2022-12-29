@@ -1,6 +1,6 @@
 # Proof of Hack Protocol Solutions
 
-Solutions to [Proof of Hack Protocol](https://github.com/Proof-Of-Hack-Protocol/challenges) CTF challenges ⛳️
+Solutions to [Eko 2022](https://www.ctfprotocol.com/tracks/eko2022) CTF challenges ⛳️
 
 **🚧 WIP**
 
