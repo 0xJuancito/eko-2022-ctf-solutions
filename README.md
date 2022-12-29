@@ -171,3 +171,17 @@ The main challenges here are
   - It will check the `getBallPossesion` method
   - It will check that the `owner` is correct
   - It will check the `handOfGod` where we set the `goals` variable to 2, and return the `22_06_1986` value
+
+## Phoenixtto
+
+### POC
+
+This is a metamorphic contract. It looks like it should re-deploy the same contract every time, but in fact, after being destructed it can deploy a different runtime code implementation. The trick is to deploy a new contract that modifies the underlying storage of the proxy.
+
+- [Test](./test/ChallengePhoenixtto.spec.ts)
+
+### Attack Steps
+
+- Create an implementation contract implementing the `reBorn` method, but assigning the attacker as the `owner`
+- Destroy the original implementation by calling `capture` on it with any value
+- Deploy the new implementation with the `Laboratory.reBorn` method
