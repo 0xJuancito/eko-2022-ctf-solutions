@@ -149,3 +149,25 @@ The goal is to make the `useNozzle` fail. In order to do that `nozzle.insert` ha
 ### Attack Steps
 
 - Make a call to the contract limiting the gas or create a `nozzle.insert` function that consumes almost all gas to make the `useNozzle` fail
+
+## Pelusa
+
+### POC
+
+The main challenges here are
+
+- Generate a contract with an address that satisfies `address % 100 == 10`. This can be done by trying with different salt values
+- Implement the corresponding functions of the attacker contract that will be called
+- The `passTheBall` requirements are bypassed because `require(msg.sender.code.length == 0, "Only EOA players")` does not apply on contract creation, where the code length is 0
+
+- [Test](./test/ChallengePelusa.spec.ts)
+
+### Attack Steps
+
+- Create a contract with an address that satisfies `address % 100 == 10`
+- Call `passTheBall` to set the `msg.sender` as the `player` on the storage
+- Calculate the `owner` on the new contract with the `deployer` of the original contract
+- Call `shoot` on the attacker contract
+  - It will check the `getBallPossesion` method
+  - It will check that the `owner` is correct
+  - It will check the `handOfGod` where we set the `goals` variable to 2, and return the `22_06_1986` value
