@@ -19,8 +19,6 @@ describe(CONTRACT_NAME, () => {
   });
 
   it("Solves the challenge", async () => {
-    const blockhash = await ethers.provider.getStorageAt(contract.address, 2);
-
     const pelusaDeployer = await (await ethers.getContractFactory("PelusaDeployer", attacker)).deploy(contract.address);
     await pelusaDeployer.deployed();
 
