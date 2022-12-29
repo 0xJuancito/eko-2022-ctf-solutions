@@ -185,3 +185,21 @@ This is a metamorphic contract. It looks like it should re-deploy the same contr
 - Create an implementation contract implementing the `reBorn` method, but assigning the attacker as the `owner`
 - Destroy the original implementation by calling `capture` on it with any value
 - Deploy the new implementation with the `Laboratory.reBorn` method
+
+## Phoenixtto
+
+### Vulnerability
+
+- Meal tokens can be minted for free
+
+### POC
+
+If the oracle is not set, it is set as 0, which is the response from the `ecrecover` when it fails.
+
+- [Test](./test/ChallengePhoenixtto.spec.ts)
+
+### Attack Steps
+
+- Create an oracle price calldata with price of 0
+- Create a signature with a valid `v` value
+- Mint tokens for free
